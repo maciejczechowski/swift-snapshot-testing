@@ -25,8 +25,8 @@ extension Diffing where Value == UIImage {
       toData: { $0.pngData() ?? emptyImage().pngData()! },
       fromData: { UIImage(data: $0, scale: imageScale)! }
     ) { old, new in
-       let message = "debug fail"
-      // guard let message = compare(old, new, precision: precision, perceptualPrecision: perceptualPrecision) else { return nil }
+      // let message = "debug fail"
+      guard let message = compare(old, new, precision: precision, perceptualPrecision: perceptualPrecision) else { return nil }
       let difference = SnapshotTesting.diff(old, new)
       let oldAttachment = XCTAttachment(image: old)
       oldAttachment.name = "reference"
@@ -197,7 +197,7 @@ func perceptuallyCompare(_ old: CIImage, _ new: CIImage, pixelPrecision: Float, 
     colorSpace: nil
   )
   let actualPixelPrecision = 1 - averagePixel
-  guard actualPixelPrecision < pixelPrecision else { return nil }
+ // guard actualPixelPrecision < pixelPrecision else { return nil }
   var maximumDeltaE: Float = 0
   context.render(
     deltaOutputImage.applyingFilter("CIAreaMaximum", parameters: [kCIInputExtentKey: new.extent]),
